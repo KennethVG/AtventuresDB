@@ -3,11 +3,8 @@ package atventures.be.atventuresdb.dao.impl;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.widget.Toast;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import atventures.be.atventuresdb.dao.BaseModelDao;
@@ -18,12 +15,11 @@ import atventures.be.atventuresdb.persistence.DBHelper;
  */
 public class CodeKrakerDaoImpl implements BaseModelDao {
 
-    private DBHelper dbHelper;
     private SQLiteDatabase db;
     private Cursor cursor;
 
     public CodeKrakerDaoImpl(Context context) {
-        dbHelper = new DBHelper(context);
+        DBHelper dbHelper = new DBHelper(context);
         db = dbHelper.open();
     }
 
@@ -73,7 +69,7 @@ public class CodeKrakerDaoImpl implements BaseModelDao {
         }
 
         Integer[] temp = ids.toArray(new Integer[ids.size()]);
-
+        cursor.close();
         return temp;
     }
 

@@ -15,7 +15,6 @@ import atventures.be.atventuresdb.dao.BaseModelDao;
 
 public class AntwoordenFragment extends Fragment implements AdapterView.OnItemClickListener {
 
-    private ListView lvTableNames;
     private ArrayAdapter<String> items;
 
     public AntwoordenFragment() {
@@ -27,7 +26,7 @@ public class AntwoordenFragment extends Fragment implements AdapterView.OnItemCl
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_antwoorden, container, false);
-        lvTableNames = (ListView) view.findViewById(R.id.lv_tablenames);
+        ListView lvTableNames = (ListView) view.findViewById(R.id.lv_tablenames);
         items = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, BaseModelDao.DB_TABLES);
         lvTableNames.setAdapter(items);
         lvTableNames.setOnItemClickListener(this);

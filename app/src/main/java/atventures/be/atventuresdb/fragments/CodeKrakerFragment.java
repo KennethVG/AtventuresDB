@@ -20,8 +20,6 @@ import atventures.be.atventuresdb.dao.impl.CodeKrakerDaoImpl;
 
 public class CodeKrakerFragment extends Fragment implements AdapterView.OnItemClickListener {
 
-    private ListView lvCodekrakers;
-    private ArrayAdapter<String> questions;
     private BaseModelDao dao;
 
     private EditText eTxtAnswer;
@@ -38,7 +36,7 @@ public class CodeKrakerFragment extends Fragment implements AdapterView.OnItemCl
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_code_kraker, container, false);
-        lvCodekrakers = (ListView) view.findViewById(R.id.lv_codekrakers);
+        ListView lvCodekrakers = (ListView) view.findViewById(R.id.lv_codekrakers);
 
         Integer[] ids = dao.getquestions();
         String[] temp = new String[ids.length];
@@ -47,7 +45,7 @@ public class CodeKrakerFragment extends Fragment implements AdapterView.OnItemCl
             temp[i] = "Vraag " + ids[i];
         }
 
-        questions = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, temp);
+        ArrayAdapter<String> questions = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, temp);
         lvCodekrakers.setAdapter(questions);
         lvCodekrakers.setOnItemClickListener(this);
 
