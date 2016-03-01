@@ -6,6 +6,8 @@
     <string name="btn_vragen">Vraag toevoegen</string>
     <string name="btn_antwoorden">Antwoord controleren</string>
 
+    <string name="etxt_antwoord">Antwoord:</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
