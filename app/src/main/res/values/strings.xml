@@ -1,4 +1,11 @@
 <resources>
-    <string name="app_name">AtventuresDB</string>
+    <string name="app_name">venture</string>
     <string name="action_settings">Settings</string>
+    <string name="content_desription_banner">Banner atventure</string>
+
+    <string name="btn_vragen">Vraag toevoegen</string>
+    <string name="btn_antwoorden">Antwoord controleren</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
