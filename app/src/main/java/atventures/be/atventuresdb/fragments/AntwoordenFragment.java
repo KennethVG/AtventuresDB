@@ -8,10 +8,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import atventures.be.atventuresdb.R;
 import atventures.be.atventuresdb.dao.BaseModelDao;
+import atventures.be.atventuresdb.dao.impl.BaseModelDaoImpl;
 
 public class AntwoordenFragment extends Fragment implements AdapterView.OnItemClickListener {
 
@@ -35,10 +35,21 @@ public class AntwoordenFragment extends Fragment implements AdapterView.OnItemCl
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if(items.getItem(position).equalsIgnoreCase(BaseModelDao.DB_TABLE_CODEKRAKER)){
-            getFragmentManager().beginTransaction().replace(R.id.container, new CodeKrakerFragment()).commit();
-        }
 
-        Toast.makeText(getActivity(), items.getItem(position), Toast.LENGTH_LONG).show();
+        BaseModelFragment cf = new BaseModelFragment(new BaseModelDaoImpl(getActivity(),BaseModelDao.DB_TABLES[position]));
+
+       // if(items.getItem(position).equalsIgnoreCase(BaseModelDao.DB_TABLE_CODEKRAKER)){
+            getFragmentManager().beginTransaction().replace(R.id.container, cf).addToBackStack(null).commit();
+        //}
+
+//        String tableName= items.getItem(position);
+//        for (String table : BaseModelDao.DB_TABLES){
+//            if(tableName.equalsIgnoreCase(table)){
+//                Fragment fragment = Fragment.instantiate(getActivity(),table + "Fragment");
+//                getFragmentManager().beginTransaction().replace(R.id.container, fragment).addToBackStack(null).commit();
+//            }
+//        }
+
+
     }
 }

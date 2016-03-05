@@ -13,13 +13,15 @@ import atventures.be.atventuresdb.persistence.DBHelper;
 /**
  * Created by kvangijsel on 28/02/2016.
  */
-public class CodeKrakerDaoImpl implements BaseModelDao {
+public class BaseModelDaoImpl implements BaseModelDao {
 
     private SQLiteDatabase db;
     private Cursor cursor;
+    private String tableName;
 
-    public CodeKrakerDaoImpl(Context context) {
+    public BaseModelDaoImpl(Context context, String tableName) {
         DBHelper dbHelper = new DBHelper(context);
+        this.tableName = tableName;
         db = dbHelper.open();
     }
 
@@ -46,6 +48,28 @@ public class CodeKrakerDaoImpl implements BaseModelDao {
     }
 
     @Override
+    public int getCodeFromDB(int _id) {
+        String[] columns = {KEY_CODE};
+        cursor = queryTeambuildingDB(_id, columns);
+        if (cursor.moveToFirst()) {
+            return cursor.getInt(0);
+        } else {
+            return 0000;
+        }
+    }
+
+    @Override
+    public int getEnveloppeFromDB(int _id) {
+        String[] columns = {KEY_ENVELOPPE};
+        cursor = queryTeambuildingDB(_id, columns);
+        if (cursor.moveToFirst()) {
+            return cursor.getInt(0);
+        } else {
+            return 0;
+        }
+    }
+
+    @Override
     public int getGradeFromDB(int _id) {
         String[] columns = {KEY_GRADE};
         cursor = queryTeambuildingDB(_id, columns);
@@ -58,8 +82,7 @@ public class CodeKrakerDaoImpl implements BaseModelDao {
 
     @Override
     public Integer[] getquestions() {
-        String query = "SELECT _id FROM " + DB_TABLE_CODEKRAKER;
-        Cursor cursor = db.rawQuery(query, null);
+        Cursor cursor = db.query(tableName, null, null, null, null, null, null);
         List<Integer> ids = new ArrayList<>();
 
         if (cursor.moveToFirst()) {
@@ -79,9 +102,8 @@ public class CodeKrakerDaoImpl implements BaseModelDao {
     }
 
     private Cursor queryTeambuildingDB(int _id, String[] columns) {
-        String tablename = DB_TABLE_CODEKRAKER;
         String[] whereArgs = {String.valueOf(_id)};
         String whereClause = KEY_ROWID + "= ?";
-        return db.query(tablename, columns, whereClause, whereArgs, null, null, null);
+        return db.query(tableName, columns, whereClause, whereArgs, null, null, null);
     }
 }

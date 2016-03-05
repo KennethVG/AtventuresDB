@@ -9,16 +9,20 @@ public class BaseModel {
     private String answer;
     private String tip;
     private int grade;
+    private int code;
+    private int enveloppe;
 
     public BaseModel(){
 
     }
 
-    public BaseModel(int _id, String answer, String tip, int grade) {
+    public BaseModel(int _id, String answer, String tip, int grade, int code, int enveloppe) {
         this._id = _id;
         this.answer = answer;
         this.tip = tip;
         this.grade = grade;
+        this.code = code;
+        this.enveloppe = enveloppe;
     }
 
     public int get_id() {
@@ -51,5 +55,21 @@ public class BaseModel {
 
     public void setGrade(int grade) {
         this.grade = grade;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public int getEnveloppe() {
+        return enveloppe;
+    }
+
+    public void setEnveloppe(int enveloppe) {
+        this.enveloppe = enveloppe;
     }
 }

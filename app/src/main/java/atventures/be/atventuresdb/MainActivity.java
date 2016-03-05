@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import atventures.be.atventuresdb.dao.BaseModelDao;
 import atventures.be.atventuresdb.fragments.MainActivityFragment;
 import atventures.be.atventuresdb.persistence.DBHelper;
 
@@ -54,5 +55,14 @@ public class MainActivity extends Activity {
     public void onResume() {
         super.onResume();
         db.open();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() == 0) {
+            this.finish();
+        } else {
+            getFragmentManager().popBackStack();
+        }
     }
 }

@@ -3,6 +3,7 @@ package atventures.be.atventuresdb.fragments;
 import android.app.Fragment;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,10 +35,14 @@ public class MainActivityFragment extends Fragment {
     private View.OnClickListener changeFragment = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+
+            VragenFragment vf = new VragenFragment();
+            AntwoordenFragment af = new AntwoordenFragment();
+
             if (v == btnVragen) {
-                getFragmentManager().beginTransaction().replace(R.id.container, new VragenFragment()).commit();
+                getFragmentManager().beginTransaction().replace(R.id.container, vf).addToBackStack(null).commit();
             } else if (v == btnAntwoorden) {
-                getFragmentManager().beginTransaction().replace(R.id.container, new AntwoordenFragment()).commit();
+                getFragmentManager().beginTransaction().replace(R.id.container, af).addToBackStack(null).commit();
             }
         }
     };

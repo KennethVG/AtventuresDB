@@ -1,9 +1,11 @@
 package atventures.be.atventuresdb.dao;
 
+import java.io.Serializable;
+
 /**
  * Created by kvangijsel on 28/02/2016.
  */
-public interface BaseModelDao {
+public interface BaseModelDao extends Serializable {
 
     // CONSTANTEN:
     // Naam van de database:
@@ -14,6 +16,8 @@ public interface BaseModelDao {
     String KEY_ANSWER = "antwoord";
     String KEY_TIP = "tip";
     String KEY_GRADE ="graad";
+    String KEY_CODE= "cijferslot";
+    String KEY_ENVELOPPE= "enveloppe";
 
     // Tabellen in de database:
     String DB_TABLE_CODEKRAKER = "Codekraker";
@@ -30,6 +34,9 @@ public interface BaseModelDao {
     String getAnswerFromDB(int _id);
     String getTipFromDB(int _id);
     int getGradeFromDB(int _id);
+    int getCodeFromDB(int _id);
+    int getEnveloppeFromDB(int _id);
     int addQuestionToDB(int _id, String answer, String tip, int grade);
+
     Integer[] getquestions();
 }
