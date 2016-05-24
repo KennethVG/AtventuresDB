@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import atventures.be.atventuresdb.dao.BaseModelDao;
+import atventures.be.atventuresdb.fragments.AntwoordenFragment;
 import atventures.be.atventuresdb.fragments.MainActivityFragment;
 import atventures.be.atventuresdb.persistence.DBHelper;
 
@@ -19,7 +20,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         // Load MainActivityFragment
-        getFragmentManager().beginTransaction().add(R.id.container, new MainActivityFragment()).commit();
+        getFragmentManager().beginTransaction().add(R.id.container, new AntwoordenFragment()).commit();
 
         // Create database if not exists
         db = new DBHelper(this);

@@ -10,6 +10,6 @@
     <ListView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/lv_codekrakers"
+        android:id="@+id/lv_basemodel"
         android:layout_weight="1" />
 </LinearLayout>

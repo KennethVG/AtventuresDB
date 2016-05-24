@@ -9,6 +9,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.util.Arrays;
+
 import atventures.be.atventuresdb.R;
 import atventures.be.atventuresdb.dao.BaseModelDao;
 import atventures.be.atventuresdb.dao.impl.BaseModelDaoImpl;
@@ -27,6 +29,7 @@ public class AntwoordenFragment extends Fragment implements AdapterView.OnItemCl
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_antwoorden, container, false);
         ListView lvTableNames = (ListView) view.findViewById(R.id.lv_tablenames);
+        Arrays.sort(BaseModelDao.DB_TABLES);
         items = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, BaseModelDao.DB_TABLES);
         lvTableNames.setAdapter(items);
         lvTableNames.setOnItemClickListener(this);

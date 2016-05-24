@@ -2,10 +2,7 @@ package atventures.be.atventuresdb.dao;
 
 import java.io.Serializable;
 
-/**
- * Created by kvangijsel on 28/02/2016.
- */
-public interface BaseModelDao extends Serializable {
+public interface BaseModelDao {
 
     // CONSTANTEN:
     // Naam van de database:
@@ -15,9 +12,9 @@ public interface BaseModelDao extends Serializable {
     String KEY_ROWID = "_id";
     String KEY_ANSWER = "antwoord";
     String KEY_TIP = "tip";
-    String KEY_GRADE ="graad";
-    String KEY_CODE= "cijferslot";
-    String KEY_ENVELOPPE= "enveloppe";
+    String KEY_GRADE = "graad";
+    String KEY_CODE = "cijferslot";
+    String KEY_ENVELOPPE = "enveloppe";
 
     // Tabellen in de database:
     String DB_TABLE_CODEKRAKER = "Codekraker";
@@ -26,16 +23,38 @@ public interface BaseModelDao extends Serializable {
     String DB_TABLE_MASTERMIND = "Mastermind";
     String DB_TABLE_SUDOKU = "Sudoku";
     String DB_TABLE_WOORDZOEKER = "Woordzoeker";
+    String DB_TABLE_MOBIELE_CODE = "Mobiele_Code";
+    String DB_TABLE_LINGO = "Lingo";
+    String DB_TABLE_PROEFOPDRACHT = "Proefopdracht";
+    String DB_TABLE_PERSOONLIJKE_OPDRACHT = "Persoonlijke_opdracht";
+    String DB_TABLE_PUZZEL = "Puzzel";
+    String DB_TABLE_RAADSEL = "Raadsel";
+    String DB_TABLE_TECTONIC = "Tectonic";
+    String DB_TABLE_GELUID = "Geluid";
+    String DB_TABLE_GETALLENREEKS = "Getallenreeks";
+
 
     // Tabelnamen:
-    String [] DB_TABLES = {DB_TABLE_CODEKRAKER, DB_TABLE_CRYPTOGRAM, DB_TABLE_DROEDEL, DB_TABLE_MASTERMIND, DB_TABLE_SUDOKU, DB_TABLE_WOORDZOEKER};
+    String[] DB_TABLES = {DB_TABLE_CODEKRAKER, DB_TABLE_CRYPTOGRAM, DB_TABLE_DROEDEL,
+            DB_TABLE_MASTERMIND, DB_TABLE_SUDOKU, DB_TABLE_WOORDZOEKER, DB_TABLE_MOBIELE_CODE,
+            DB_TABLE_LINGO, DB_TABLE_PROEFOPDRACHT, DB_TABLE_GETALLENREEKS, DB_TABLE_GELUID,
+            DB_TABLE_PERSOONLIJKE_OPDRACHT, DB_TABLE_TECTONIC, DB_TABLE_RAADSEL, DB_TABLE_PUZZEL};
+
+    // Andere:
+    String RIDDLE = "Raadsel ";
+    String PASSWORD = "0413";
 
     // METHODS:
     String getAnswerFromDB(int _id);
+
     String getTipFromDB(int _id);
+
     int getGradeFromDB(int _id);
+
     int getCodeFromDB(int _id);
+
     int getEnveloppeFromDB(int _id);
+
     int addQuestionToDB(int _id, String answer, String tip, int grade);
 
     Integer[] getquestions();

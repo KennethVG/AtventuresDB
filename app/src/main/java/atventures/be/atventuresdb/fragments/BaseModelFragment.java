@@ -3,6 +3,7 @@ package atventures.be.atventuresdb.fragments;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -10,11 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import atventures.be.atventuresdb.R;
+import atventures.be.atventuresdb.MainActivity;
 import atventures.be.atventuresdb.dao.BaseModelDao;
 
 public class BaseModelFragment extends Fragment implements AdapterView.OnItemClickListener {
@@ -22,10 +26,19 @@ public class BaseModelFragment extends Fragment implements AdapterView.OnItemCli
     private BaseModelDao dao;
 
     private EditText eTxtAnswer;
+    private EditText eTxtPassword;
+    private TextView txtvResult;
+    private TextView txtvInfo;
+    private Button btnValidate, btnTerug;
+
     private String answer;
     private int enveloppe;
     private int code;
+
     private String answerFromDB;
+    private String tipFromDB;
+
+    private AlertDialog inputDialog;
 
     public BaseModelFragment() {
         // Required empty public constructor
@@ -33,21 +46,22 @@ public class BaseModelFragment extends Fragment implements AdapterView.OnItemCli
 
     }
 
-    public BaseModelFragment(BaseModelDao dao){
+    public BaseModelFragment(BaseModelDao dao) {
         this.dao = dao;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_code_kraker, container, false);
-        ListView lvCodekrakers = (ListView) view.findViewById(R.id.lv_codekrakers);
+        View view = inflater.inflate(R.layout.fragment_basemodel, container, false);
+        ListView lvCodekrakers = (ListView) view.findViewById(R.id.lv_basemodel);
+
 
         Integer[] ids = dao.getquestions();
         String[] temp = new String[ids.length];
 
         for (int i = 0; i < ids.length; i++) {
-            temp[i] = "Raadsel " + ids[i];
+            temp[i] = BaseModelDao.RIDDLE + ids[i];
         }
 
         ArrayAdapter<String> questions = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, temp);
@@ -63,17 +77,17 @@ public class BaseModelFragment extends Fragment implements AdapterView.OnItemCli
         int _id = position + 1;
         answerFromDB = dao.getAnswerFromDB(_id).trim();
         enveloppe = dao.getEnveloppeFromDB(_id);
-        code= dao.getCodeFromDB(_id);
+        code = dao.getCodeFromDB(_id);
+        tipFromDB = dao.getTipFromDB(_id);
         showInputDialog();
-
-
     }
 
+    // Helper methode voor dialoog te tonen zodat de gebruiker antwoord kan ingeven:
     private void showInputDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Geef je antwoord op deze vraag: ");
         builder.setIcon(R.drawable.question);
-        builder.setView(getViewForDialog());
+        builder.setView(getViewForInputDialog());
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -85,35 +99,118 @@ public class BaseModelFragment extends Fragment implements AdapterView.OnItemCli
                 }
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNeutralButton("Ik wil een tip!", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
+                showPassWordForTipDialog();
             }
         });
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        builder.setNegativeButton("Toon de oplossing!", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                showPassWordForSolutionDialog();
+            }
+        });
+
+        inputDialog = builder.create();
+        inputDialog.show();
     }
 
-    private void showCodeToUnlockSlotDialog(){
+    // Helper methode om info te tonen
+    private void showCodeToUnlockSlotDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Proficiat! Hierbij de code om het slot te bemachtigen: ");
         builder.setIcon(R.drawable.key);
-        builder.setMessage(Html.fromHtml(getString(R.string.dialog_message, code , enveloppe)));
+        builder.setMessage(Html.fromHtml(getString(R.string.dialog_oplossing, code, enveloppe)));
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
+                // Return to homescreen
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                getActivity().startActivity(intent);
             }
         });
         AlertDialog dialog = builder.create();
         dialog.show();
     }
 
-    private View getViewForDialog() {
+    // Helper methode om tip dialoog te tonen
+    private void showPassWordForTipDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("TIP ");
+        builder.setIcon(R.drawable.tip);
+        builder.setView(getViewForPasswordDialog());
+        txtvInfo.setText(R.string.dialog_info_tip);
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+        btnValidate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (eTxtPassword.getText().toString().equalsIgnoreCase(String.valueOf(BaseModelDao.PASSWORD))) {
+                    txtvResult.setText("Tip: " + tipFromDB);
+                } else {
+                    txtvResult.setText("Foute paswoord!");
+                }
+            }
+        });
+        btnTerug.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Return to homescreen
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
+    }
+
+    // Helper methode om tip dialoog te tonen
+    private void showPassWordForSolutionDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Oplossing ");
+        builder.setIcon(R.drawable.tip);
+        builder.setView(getViewForPasswordDialog());
+        txtvInfo.setText(R.string.dialog_info_oplossing);
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+        btnValidate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (eTxtPassword.getText().toString().equalsIgnoreCase(String.valueOf(BaseModelDao.PASSWORD))) {
+                    txtvResult.setText("Oplossing: " + Html.fromHtml(getString(R.string.dialog_oplossing, code, enveloppe)));
+                } else {
+                    txtvResult.setText("Foute paswoord!");
+                }
+            }
+        });
+        btnTerug.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Return to homescreen
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
+    }
+
+    //  Specifieke view plaatsen in de input dialoog:
+    private View getViewForInputDialog() {
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_answer, null);
         eTxtAnswer = (EditText) view.findViewById(R.id.etxt_answer);
         //eTxtAnswer.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_NORMAL);
         return view;
     }
+
+    //  Specifieke view plaatsen in de input dialoog:
+    private View getViewForPasswordDialog() {
+        View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_tip, null);
+        eTxtPassword = (EditText) view.findViewById(R.id.etxt_password);
+        btnTerug = (Button) view.findViewById(R.id.btn_terug);
+        btnValidate = (Button) view.findViewById(R.id.btn_valideer);
+        txtvResult = (TextView) view.findViewById(R.id.txt_result);
+        txtvInfo = (TextView) view.findViewById(R.id.txtv_info);
+        return view;
+    }
+
 }
