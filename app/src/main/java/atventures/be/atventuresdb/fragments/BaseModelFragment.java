@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import atventures.be.atventuresdb.R;
 import atventures.be.atventuresdb.MainActivity;
 import atventures.be.atventuresdb.dao.BaseModelDao;
+import atventures.be.atventuresdb.dao.impl.BaseModelDaoImpl;
 
 public class BaseModelFragment extends Fragment implements AdapterView.OnItemClickListener {
 
@@ -42,21 +44,23 @@ public class BaseModelFragment extends Fragment implements AdapterView.OnItemCli
 
     public BaseModelFragment() {
         // Required empty public constructor
-        //dao = new BaseModelDaoImpl(getActivity());
-
     }
 
-    public BaseModelFragment(BaseModelDao dao) {
-        this.dao = dao;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // get tablename (naam denkopdracht) from AntwoordenFragment.
+        dao = new BaseModelDaoImpl(getActivity(), getArguments().getString("table"));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_basemodel, container, false);
-        ListView lvCodekrakers = (ListView) view.findViewById(R.id.lv_basemodel);
+        ListView lvDenkopdrachten = (ListView) view.findViewById(R.id.lv_basemodel);
 
-
+        // Haal de denkopdrachten van de database en plaats ze in een array
         Integer[] ids = dao.getquestions();
         String[] temp = new String[ids.length];
 
@@ -64,9 +68,10 @@ public class BaseModelFragment extends Fragment implements AdapterView.OnItemCli
             temp[i] = BaseModelDao.RIDDLE + ids[i];
         }
 
+        // Toon de gegevens van de array in de Listview:
         ArrayAdapter<String> questions = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, temp);
-        lvCodekrakers.setAdapter(questions);
-        lvCodekrakers.setOnItemClickListener(this);
+        lvDenkopdrachten.setAdapter(questions);
+        lvDenkopdrachten.setOnItemClickListener(this);
 
         // Inflate the layout for this fragment
         return view;
@@ -78,11 +83,11 @@ public class BaseModelFragment extends Fragment implements AdapterView.OnItemCli
         answerFromDB = dao.getAnswerFromDB(_id).trim();
         enveloppe = dao.getEnveloppeFromDB(_id);
         code = dao.getCodeFromDB(_id);
-        tipFromDB = dao.getTipFromDB(_id);
+        tipFromDB = dao.getTipFromDB(_id).trim();
         showInputDialog();
     }
 
-    // Helper methode voor dialoog te tonen zodat de gebruiker antwoord kan ingeven:
+    // Helper methode om dialoog te tonen zodat de gebruiker antwoord kan ingeven:
     private void showInputDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Geef je antwoord op deze vraag: ");

@@ -14,8 +14,8 @@
     <Button
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:text="@string/btn_vragen"
-        android:id="@+id/btn_vragen"
+        android:text="@string/btn_denkopdrachten"
+        android:id="@+id/btn_denkopdrachten"
         android:layout_weight="1"
         android:background="@color/background_floating_material_light"
         android:layout_margin="15dp" />

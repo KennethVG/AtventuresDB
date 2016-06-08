@@ -42,6 +42,7 @@ public interface BaseModelDao {
 
     // Andere:
     String RIDDLE = "Raadsel ";
+    String DENKOPDRACHT = "Denkopdracht: ";
     String PASSWORD = "0413";
 
     // METHODS:

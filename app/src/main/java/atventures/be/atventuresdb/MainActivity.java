@@ -20,7 +20,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         // Load MainActivityFragment
-        getFragmentManager().beginTransaction().add(R.id.container, new AntwoordenFragment()).commit();
+        getFragmentManager().beginTransaction().add(R.id.container, new MainActivityFragment()).commit();
 
         // Create database if not exists
         db = new DBHelper(this);

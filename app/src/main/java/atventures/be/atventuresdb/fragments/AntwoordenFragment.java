@@ -23,7 +23,6 @@ public class AntwoordenFragment extends Fragment implements AdapterView.OnItemCl
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -38,21 +37,10 @@ public class AntwoordenFragment extends Fragment implements AdapterView.OnItemCl
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-        BaseModelFragment cf = new BaseModelFragment(new BaseModelDaoImpl(getActivity(),BaseModelDao.DB_TABLES[position]));
-
-       // if(items.getItem(position).equalsIgnoreCase(BaseModelDao.DB_TABLE_CODEKRAKER)){
-            getFragmentManager().beginTransaction().replace(R.id.container, cf).addToBackStack(null).commit();
-        //}
-
-//        String tableName= items.getItem(position);
-//        for (String table : BaseModelDao.DB_TABLES){
-//            if(tableName.equalsIgnoreCase(table)){
-//                Fragment fragment = Fragment.instantiate(getActivity(),table + "Fragment");
-//                getFragmentManager().beginTransaction().replace(R.id.container, fragment).addToBackStack(null).commit();
-//            }
-//        }
-
-
+        BaseModelFragment cf = new BaseModelFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("table", BaseModelDao.DB_TABLES[position]);
+        cf.setArguments(bundle);
+        getFragmentManager().beginTransaction().replace(R.id.container, cf).addToBackStack(null).commit();
     }
 }

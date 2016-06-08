@@ -19,6 +19,7 @@ public class BaseModelDaoImpl implements BaseModelDao {
     private Cursor cursor;
     private String tableName;
 
+
     public BaseModelDaoImpl(Context context, String tableName) {
         DBHelper dbHelper = new DBHelper(context);
         this.tableName = tableName;
