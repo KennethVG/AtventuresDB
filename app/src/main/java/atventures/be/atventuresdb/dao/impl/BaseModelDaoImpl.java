@@ -98,6 +98,18 @@ public class BaseModelDaoImpl implements BaseModelDao {
     }
 
     @Override
+    public String getInfoFromDB(int _id) {
+        String[] columns = {KEY_INFO};
+        cursor = queryTeambuildingDB(_id, columns);
+        System.out.println("ID= " + _id);
+        if (cursor.moveToFirst()) {
+            return cursor.getString(0);
+        } else {
+            return "ID NOT FOUND IN DATABASE";
+        }
+    }
+
+    @Override
     public int addQuestionToDB(int _id, String answer, String tip, int grade) {
         return 0;
     }

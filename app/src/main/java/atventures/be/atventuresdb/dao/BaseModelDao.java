@@ -1,12 +1,10 @@
 package atventures.be.atventuresdb.dao;
 
-import java.io.Serializable;
-
 public interface BaseModelDao {
 
     // CONSTANTEN:
     // Naam van de database:
-    String DB_NAME = "Teambuilding.db";
+    String DB_NAME = "Atventure.db";
 
     // Kolomnamen in elke tabel:
     String KEY_ROWID = "_id";
@@ -15,6 +13,7 @@ public interface BaseModelDao {
     String KEY_GRADE = "graad";
     String KEY_CODE = "cijferslot";
     String KEY_ENVELOPPE = "enveloppe";
+    String KEY_INFO = "info";
 
     // Tabellen in de database:
     String DB_TABLE_CODEKRAKER = "Codekraker";
@@ -49,6 +48,8 @@ public interface BaseModelDao {
     String getAnswerFromDB(int _id);
 
     String getTipFromDB(int _id);
+
+    String getInfoFromDB(int _id);
 
     int getGradeFromDB(int _id);
 

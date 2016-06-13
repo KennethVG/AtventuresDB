@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import atventures.be.atventuresdb.R;
+import atventures.be.atventuresdb.dao.BaseModelDao;
+import atventures.be.atventuresdb.dao.impl.BaseModelDaoImpl;
 import atventures.be.atventuresdb.model.DenkOpdracht;
 
 public class DenkopdrachtenFragment extends Fragment {
@@ -29,9 +31,7 @@ public class DenkopdrachtenFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
-        if (bundle != null && !RETURN)
-            denkOpdracht = (DenkOpdracht) bundle.getSerializable("DO");
-        RETURN = true;
+        denkOpdracht = (DenkOpdracht) bundle.getSerializable("DO");
     }
 
     @Override
