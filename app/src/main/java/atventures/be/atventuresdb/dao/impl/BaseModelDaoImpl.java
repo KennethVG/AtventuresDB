@@ -3,6 +3,8 @@ package atventures.be.atventuresdb.dao.impl;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +87,6 @@ public class BaseModelDaoImpl implements BaseModelDao {
     public Integer[] getquestions() {
         Cursor cursor = db.query(tableName, null, null, null, null, null, null);
         List<Integer> ids = new ArrayList<>();
-
         if (cursor.moveToFirst()) {
             do {
                 ids.add(cursor.getInt(0));
@@ -98,10 +99,22 @@ public class BaseModelDaoImpl implements BaseModelDao {
     }
 
     @Override
+    public Bitmap getImage(int _id) {
+        String [] columns = {KEY_IMAGE};
+        cursor = queryTeambuildingDB(_id, columns);
+        if (cursor.moveToFirst()) {
+            byte[] imgByte = cursor.getBlob(0);
+            if(imgByte != null){
+                return BitmapFactory.decodeByteArray(imgByte, 0, imgByte.length);
+            }
+        }
+        return null;
+    }
+
+    @Override
     public String getInfoFromDB(int _id) {
         String[] columns = {KEY_INFO};
         cursor = queryTeambuildingDB(_id, columns);
-        System.out.println("ID= " + _id);
         if (cursor.moveToFirst()) {
             return cursor.getString(0);
         } else {

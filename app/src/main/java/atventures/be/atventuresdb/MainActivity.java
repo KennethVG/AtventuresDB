@@ -1,9 +1,13 @@
 package atventures.be.atventuresdb;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import atventures.be.atventuresdb.dao.BaseModelDao;
 import atventures.be.atventuresdb.fragments.AntwoordenFragment;
@@ -19,8 +23,13 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Load MainActivityFragment
-        getFragmentManager().beginTransaction().add(R.id.container, new MainActivityFragment()).commit();
+        if (getFragmentManager().getBackStackEntryCount() > 0) {
+            getFragmentManager().beginTransaction().replace(R.id.container, new AntwoordenFragment()).commit();
+        } else {
+            // Load MainActivityFragment
+            getFragmentManager().beginTransaction().add(R.id.container, new AntwoordenFragment()).commit();
+        }
+
 
         // Create database if not exists
         db = new DBHelper(this);
@@ -43,7 +52,6 @@ public class MainActivity extends Activity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -60,10 +68,10 @@ public class MainActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        if (getFragmentManager().getBackStackEntryCount() == 0) {
-            this.finish();
-        } else {
-            getFragmentManager().popBackStack();
-        }
+        if (getFragmentManager().getBackStackEntryCount() > 0)
+            getFragmentManager().popBackStack("Raadsels", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+         else
+            startActivity(new Intent(this, MainActivity.class));
+
     }
 }

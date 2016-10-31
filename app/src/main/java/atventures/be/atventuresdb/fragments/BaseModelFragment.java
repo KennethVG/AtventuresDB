@@ -2,6 +2,7 @@ package atventures.be.atventuresdb.fragments;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -96,7 +97,7 @@ public class BaseModelFragment extends Fragment implements AdapterView.OnItemCli
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                answer = eTxtAnswer.getText().toString();
+                answer = eTxtAnswer.getText().toString().trim();
                 if (answerFromDB.equalsIgnoreCase(answer)) {
                     showCodeToUnlockSlotDialog();
                 } else {
@@ -130,9 +131,7 @@ public class BaseModelFragment extends Fragment implements AdapterView.OnItemCli
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Return to homescreen
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                getActivity().startActivity(intent);
+                returnToHomescreen();
             }
         });
         AlertDialog dialog = builder.create();
@@ -162,9 +161,7 @@ public class BaseModelFragment extends Fragment implements AdapterView.OnItemCli
         btnTerug.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Return to homescreen
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                getActivity().startActivity(intent);
+                returnToHomescreen();
             }
         });
     }
@@ -192,9 +189,7 @@ public class BaseModelFragment extends Fragment implements AdapterView.OnItemCli
         btnTerug.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Return to homescreen
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                getActivity().startActivity(intent);
+                returnToHomescreen();
             }
         });
     }
@@ -216,6 +211,12 @@ public class BaseModelFragment extends Fragment implements AdapterView.OnItemCli
         txtvResult = (TextView) view.findViewById(R.id.txt_result);
         txtvInfo = (TextView) view.findViewById(R.id.txtv_info);
         return view;
+    }
+
+    private void returnToHomescreen() {
+         // Return to homescreen
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        getActivity().startActivity(intent);
     }
 
 }

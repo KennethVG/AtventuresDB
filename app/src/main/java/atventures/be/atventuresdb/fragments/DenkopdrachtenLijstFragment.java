@@ -1,6 +1,9 @@
 package atventures.be.atventuresdb.fragments;
 
 import android.app.Fragment;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,11 +32,9 @@ public class DenkopdrachtenLijstFragment extends Fragment implements AdapterView
 
     private int[] ids;
 
-
     public DenkopdrachtenLijstFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,11 @@ public class DenkopdrachtenLijstFragment extends Fragment implements AdapterView
 
         // Sorteer de lijst:
         Arrays.sort(BaseModelDao.DB_TABLES);
+//        lijstDenkopdrachten = new ArrayList<>();
+//
+//        for (int i = 0; i < BaseModelDao.DB_TABLES.length; i++) {
+//            lijstDenkopdrachten.add(BaseModelDao.DB_TABLES[i]);
+//        }
 
         // Toon 9 random denkopdrachten:
         lijstDenkopdrachten = new ArrayList<>();
@@ -77,22 +83,31 @@ public class DenkopdrachtenLijstFragment extends Fragment implements AdapterView
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         dao = new BaseModelDaoImpl(getActivity(), BaseModelDao.DB_TABLES[ids[position]]);
+//        dao = new BaseModelDaoImpl(getActivity(), BaseModelDao.DB_TABLES[position]);
         denkopdracht = new DenkOpdracht();
-        System.out.println(lijstDenkopdrachten.toString());
-        String name = lijstDenkopdrachten.get(position);
+        String name = lijstDenkopdrachten.get(position+1);
         denkopdracht.setTitle(name);
 
         // Toon een random raadsel van de gekozen denkopdracht.
         Integer[] aantalRaadsels = dao.getquestions();
         int randomGetal = random.nextInt(aantalRaadsels.length)+1;
         denkopdracht.setText(dao.getInfoFromDB(randomGetal));
-        denkopdracht.setDrawable(getResources().getDrawable(R.drawable.lingo1));
 
-        System.out.println("INFO: " +  denkopdracht);
+        // Load image
+        Bitmap bitmap = dao.getImage(position+1);
+        if(bitmap != null){
+            Drawable drawable = new BitmapDrawable(getResources(), bitmap);
+            denkopdracht.setDrawable(drawable);
+        }
+        else{
+            denkopdracht.setDrawable(getResources().getDrawable(R.drawable.question));
+        }
         DenkopdrachtenFragment fragment = new DenkopdrachtenFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("DO", denkopdracht);
         fragment.setArguments(bundle);
+
+        System.out.println(denkopdracht);
 
         getFragmentManager().beginTransaction().replace(R.id.container, fragment).addToBackStack(null).commit();
     }

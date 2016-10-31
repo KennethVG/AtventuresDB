@@ -9,7 +9,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import atventures.be.atventuresdb.R;
 import atventures.be.atventuresdb.dao.BaseModelDao;
@@ -27,7 +29,13 @@ public class AntwoordenFragment extends Fragment implements AdapterView.OnItemCl
         View view = inflater.inflate(R.layout.fragment_antwoorden, container, false);
         ListView lvTableNames = (ListView) view.findViewById(R.id.lv_tablenames);
         Arrays.sort(BaseModelDao.DB_TABLES);
-        ArrayAdapter<String> items = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, BaseModelDao.DB_TABLES);
+        List<String> lijst = new ArrayList<>();
+
+        for(int i = 0; i<BaseModelDao.DB_TABLES.length;i++){
+            lijst.add(BaseModelDao.DB_TABLES[i]);
+        }
+
+        ArrayAdapter<String> items = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1,lijst);
         lvTableNames.setAdapter(items);
         lvTableNames.setOnItemClickListener(this);
         return view;
@@ -39,6 +47,6 @@ public class AntwoordenFragment extends Fragment implements AdapterView.OnItemCl
         Bundle bundle = new Bundle();
         bundle.putString("table", BaseModelDao.DB_TABLES[position]);
         cf.setArguments(bundle);
-        getFragmentManager().beginTransaction().replace(R.id.container, cf).addToBackStack(null).commit();
+        getFragmentManager().beginTransaction().replace(R.id.container, cf).addToBackStack("Raadsels").commit();
     }
 }
