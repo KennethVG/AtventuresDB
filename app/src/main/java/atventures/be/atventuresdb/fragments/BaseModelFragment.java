@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -92,7 +93,7 @@ public class BaseModelFragment extends Fragment implements AdapterView.OnItemCli
     private void showInputDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Geef je antwoord op deze vraag: ");
-        builder.setIcon(R.drawable.question);
+        builder.setIcon(R.drawable.help);
         builder.setView(getViewForInputDialog());
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
@@ -126,7 +127,7 @@ public class BaseModelFragment extends Fragment implements AdapterView.OnItemCli
     private void showCodeToUnlockSlotDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Proficiat! Hierbij de code om het slot te bemachtigen: ");
-        builder.setIcon(R.drawable.key);
+        builder.setIcon(R.drawable.solution);
         builder.setMessage(Html.fromHtml(getString(R.string.dialog_oplossing, code, enveloppe)));
         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
@@ -142,7 +143,7 @@ public class BaseModelFragment extends Fragment implements AdapterView.OnItemCli
     private void showPassWordForTipDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("TIP ");
-        builder.setIcon(R.drawable.tip);
+        builder.setIcon(R.drawable.light);
         builder.setView(getViewForPasswordDialog());
         txtvInfo.setText(R.string.dialog_info_tip);
         final AlertDialog dialog = builder.create();
@@ -170,7 +171,7 @@ public class BaseModelFragment extends Fragment implements AdapterView.OnItemCli
     private void showPassWordForSolutionDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Oplossing ");
-        builder.setIcon(R.drawable.tip);
+        builder.setIcon(R.drawable.solution);
         builder.setView(getViewForPasswordDialog());
         txtvInfo.setText(R.string.dialog_info_oplossing);
         final AlertDialog dialog = builder.create();
@@ -214,7 +215,7 @@ public class BaseModelFragment extends Fragment implements AdapterView.OnItemCli
     }
 
     private void returnToHomescreen() {
-         // Return to homescreen
+        // Return to homescreen
         Intent intent = new Intent(getActivity(), MainActivity.class);
         getActivity().startActivity(intent);
     }

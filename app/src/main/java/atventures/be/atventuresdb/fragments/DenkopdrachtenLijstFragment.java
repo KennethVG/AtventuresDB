@@ -100,7 +100,7 @@ public class DenkopdrachtenLijstFragment extends Fragment implements AdapterView
             denkopdracht.setDrawable(drawable);
         }
         else{
-            denkopdracht.setDrawable(getResources().getDrawable(R.drawable.question));
+            denkopdracht.setDrawable(getResources().getDrawable(R.drawable.help));
         }
         DenkopdrachtenFragment fragment = new DenkopdrachtenFragment();
         Bundle bundle = new Bundle();
