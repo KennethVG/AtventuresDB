@@ -2,17 +2,13 @@ package atventures.be.atventuresdb;
 
 import android.app.Activity;
 import android.app.FragmentManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import atventures.be.atventuresdb.fragments.AntwoordenFragment;
 import atventures.be.atventuresdb.model.MyLocationService;
@@ -53,20 +49,12 @@ public class MainActivity extends Activity {
         int id = item.getItemId();
 
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
                     1);
         }
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_location) {
-//            LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-//            double longitude = location.getLongitude();
-//            double latitude = location.getLatitude();
-//            Toast.makeText(this, "lon= " + longitude + ", lat= " + latitude, Toast.LENGTH_LONG).show();
-
-            MyLocationService ls = new MyLocationService(this);
+            new MyLocationService(this);
 
         }
         return super.onOptionsItemSelected(item);

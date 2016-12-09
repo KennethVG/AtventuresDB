@@ -21,7 +21,7 @@ public class MyLocationService implements LocationListener {
 
     private final static boolean forceNetwork = false;
 
-    private static MyLocationService instance = null;
+    private MyLocationService instance = null;
 
     private LocationManager locationManager;
     private Location location;
@@ -99,13 +99,20 @@ public class MyLocationService implements LocationListener {
         longitude = location.getLongitude();
     }
 
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
 
     @Override
     public void onLocationChanged(Location location) {
         latitude = location.getLatitude();
         longitude = location.getLongitude();
 
-        Toast.makeText(context, "lat= " + location.getLatitude() + ", lon= " + location.getLongitude(), Toast.LENGTH_LONG).show();
+        Toast.makeText(context, "lat= " + getLatitude() + ", lon= " + getLongitude(), Toast.LENGTH_LONG).show();
     }
 
     @Override
